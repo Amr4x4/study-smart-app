@@ -1,4 +1,4 @@
-package com.example.study_smart.ui.theme
+package com.example.study_smart.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
