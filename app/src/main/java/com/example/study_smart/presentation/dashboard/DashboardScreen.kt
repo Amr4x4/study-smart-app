@@ -1,41 +1,37 @@
 package com.example.study_smart.presentation.dashboard
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.study_smart.R
+import com.example.study_smart.domine.model.Subject
 import com.example.study_smart.presentation.components.CountCard
-// start -> 17:21
+import com.example.study_smart.presentation.components.SubjectCard
+
 @Composable
 fun DashboardScreen() {
-    Scaffold (
+    Scaffold(
         topBar = { DashboardScreenTopBar() }
-    ){ paddingValues ->
-        LazyColumn (
+    ) { paddingValues ->
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-        ){
+        ) {
             item {
                 CountCardsSection(
                     modifier = Modifier
@@ -46,10 +42,16 @@ fun DashboardScreen() {
                     goalStudy = "15"
                 )
             }
-
+            item {
+                SubjectCardsSection(
+                    modifier = Modifier.fillMaxWidth(),
+                    subjectList = emptyList(),
+                    onAddIconClicked = {},
+                    onSubjectCardClick = {}
+                )
+            }
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,25 +70,23 @@ private fun DashboardScreenTopBar() {
 @Composable
 private fun CountCardsSection(
     modifier: Modifier = Modifier,
-    subjectCount:Int,
-    studiedHours:String,
-    goalStudy:String
+    subjectCount: Int,
+    studiedHours: String,
+    goalStudy: String
 ) {
-    Row(
-        modifier = modifier
-    ) {
+    Row(modifier = modifier) {
         CountCard(
             modifier = Modifier.weight(1f),
             headingText = stringResource(R.string.subject_count),
             count = "$subjectCount"
         )
-        Spacer(Modifier.padding(horizontal = 10.dp))
+        Spacer(Modifier.width(10.dp))
         CountCard(
             modifier = Modifier.weight(1f),
             headingText = stringResource(R.string.studied_hours),
             count = studiedHours
         )
-        Spacer(Modifier.padding(horizontal = 10.dp))
+        Spacer(Modifier.width(10.dp))
         CountCard(
             modifier = Modifier.weight(1f),
             headingText = stringResource(R.string.goal_study_hours),
@@ -96,28 +96,60 @@ private fun CountCardsSection(
 }
 
 @Composable
-private fun SubjectCardsSection(modifier: Modifier = Modifier) {
-    Column {
+private fun SubjectCardsSection(
+    modifier: Modifier,
+    subjectList: List<Subject>,
+    emptyListText: String = "You don't have any subjects.\nClick the + button to add new subject.",
+    onAddIconClicked: () -> Unit,
+    onSubjectCardClick: (Int?) -> Unit
+) {
+    Column(modifier = modifier.padding(12.dp)) {
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
-        ){
+        ) {
             Text(
-                text = "SUBJECTS",
+                text = stringResource(R.string.subjects),
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 12.dp)
+                modifier = Modifier.padding(start = 8.dp)
             )
-            IconButton(
-                onClick = {/* TODO */}
-            ) {
+            IconButton(onClick = onAddIconClicked) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.add_subject)
+                    contentDescription = stringResource(R.string.add_subject) // Add to strings.xml
                 )
             }
         }
-
+        if (subjectList.isEmpty()) {
+            Image(
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(Alignment.CenterHorizontally),
+                painter = painterResource(R.drawable.img_books),
+                contentDescription = emptyListText
+            )
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = emptyListText,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+            )
+        } else {
+            LazyRow (
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(start = 12.dp, end = 12.dp)
+            ){
+                items(subjectList) { subject ->
+                    SubjectCard(
+                        subjectName = subject.name,
+                        gradientColor = subject.colors,
+                        onClick = { }
+                    )
+                }
+            }
+        }
     }
 }
 
