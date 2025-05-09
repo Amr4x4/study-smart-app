@@ -23,6 +23,7 @@ import com.example.study_smart.presentation.components.CountCard
 import com.example.study_smart.presentation.components.SubjectCard
 import com.example.study_smart.presentation.components.taskList
 
+// 22:50
 @Composable
 fun DashboardScreen() {
     Scaffold(
@@ -66,7 +67,9 @@ fun DashboardScreen() {
             taskList(
                 sectionTitle = "UP COMING TASKS",
                 tasks = emptyList(),
-                emptyListText = "You don't have any tasks.\nClick the + button to add new task."
+                emptyListText = "You don't have any tasks.\nClick the + button to add new task.",
+                onCheckBoxClick = {},
+                onTaskCardClick = {}
             )
 
         }
