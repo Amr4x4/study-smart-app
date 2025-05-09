@@ -6,5 +6,7 @@ data class Task(
     val dueDate: Long,
     val priority: Int,
     val relatedToSubject: String,
-    val isComplete: Boolean
+    val isComplete: Boolean,
+    val taskSubID: Int,
+    val taskID: Int
 )

@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,11 +25,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.study_smart.R
 import com.example.study_smart.domine.model.Task
+import com.example.study_smart.util.Priority
 
 fun LazyListScope.taskList(
     sectionTitle: String,
     tasks: List<Task>,
-    emptyListText: String
+    emptyListText: String,
+    onTaskCardClick: (Int?) -> Unit,
+    onCheckBoxClick: (Task) -> Unit
 ){
     item{
         Text(
@@ -57,15 +62,25 @@ fun LazyListScope.taskList(
             }
         }
     }
+    items (tasks){ task ->
+        TaskCard(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+            task = task,
+            onClickCheckBox = { onCheckBoxClick(task) },
+            onClick = { onTaskCardClick(task.taskID) }
+        )
+    }
 }
 
 @Composable
 private fun TaskCard(
-    modifier: Modifier = Modifier,
-    task: Task
+    modifier: Modifier,
+    task: Task,
+    onClickCheckBox: () -> Unit,
+    onClick: () -> Unit
 ) {
     ElevatedCard(
-        modifier = Modifier.clickable{}
+        modifier = modifier.clickable{ onClick() }
     ) {
         Row (
             modifier = Modifier
@@ -73,6 +88,13 @@ private fun TaskCard(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
+            TaskCheckBox(
+                isComplete = true,
+                borderColor = Priority.fromInt(task.priority).color,
+            ) { onClickCheckBox() }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
           Column {
               Text(
                   text = task.title,
