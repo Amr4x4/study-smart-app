@@ -21,6 +21,7 @@ import com.example.study_smart.R
 import com.example.study_smart.domine.model.Subject
 import com.example.study_smart.presentation.components.CountCard
 import com.example.study_smart.presentation.components.SubjectCard
+import com.example.study_smart.presentation.components.taskList
 
 @Composable
 fun DashboardScreen() {
@@ -50,6 +51,24 @@ fun DashboardScreen() {
                     onSubjectCardClick = {}
                 )
             }
+            item{
+                Button(
+                    onClick = { /* TODO */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 48.dp, vertical = 20.dp)
+                ) {
+                    Text(
+                        text = "Start Study Session"
+                    )
+                }
+            }
+            taskList(
+                sectionTitle = "UP COMING TASKS",
+                tasks = emptyList(),
+                emptyListText = "You don't have any tasks.\nClick the + button to add new task."
+            )
+
         }
     }
 }
