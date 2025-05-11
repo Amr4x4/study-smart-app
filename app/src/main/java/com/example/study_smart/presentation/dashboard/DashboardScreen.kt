@@ -21,9 +21,9 @@ import com.example.study_smart.R
 import com.example.study_smart.domine.model.Subject
 import com.example.study_smart.presentation.components.CountCard
 import com.example.study_smart.presentation.components.SubjectCard
+import com.example.study_smart.presentation.components.studySessionsList
 import com.example.study_smart.presentation.components.taskList
 
-// 22:50
 @Composable
 fun DashboardScreen() {
     Scaffold(
@@ -64,6 +64,9 @@ fun DashboardScreen() {
                     )
                 }
             }
+            item {
+                Spacer(modifier = Modifier.height(20.dp))
+            }
             taskList(
                 sectionTitle = "UP COMING TASKS",
                 tasks = emptyList(),
@@ -71,7 +74,13 @@ fun DashboardScreen() {
                 onCheckBoxClick = {},
                 onTaskCardClick = {}
             )
-
+            studySessionsList(
+                sectionTitle = "RECENT STUDY SESSIONS",
+                emptyListText = "You don't have any recent study sessions.\n " +
+                        "Start a study session to begin recording your progress.",
+                sessions = emptyList(),
+                onDeleteClickAction = { /* TODO */ }
+            )
         }
     }
 }
