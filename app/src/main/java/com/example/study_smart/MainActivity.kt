@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.study_smart.presentation.dashboard.DashboardScreen
+import com.example.study_smart.presentation.subject.SubjectScreen
 import com.example.study_smart.presentation.theme.StudysmartTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StudysmartTheme {
-                DashboardScreen()
+                SubjectScreen()
             }
         }
     }
