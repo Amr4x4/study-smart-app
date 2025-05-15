@@ -111,6 +111,9 @@ fun DashboardScreen() {
                 onCheckBoxClick = {},
                 onTaskCardClick = {}
             )
+            item {
+                Spacer( modifier = Modifier.height(20.dp) )
+            }
             studySessionsList(
                 sectionTitle = "RECENT STUDY SESSIONS",
                 emptyListText = "You don't have any recent study sessions.\n " +
